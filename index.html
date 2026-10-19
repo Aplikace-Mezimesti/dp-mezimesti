@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrace | DP Meziměstí</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f6f5f2;
+      color: #232624;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: auto;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid #ddded8;
+    }
+
+    .logo {
+      padding: 15px 12px;
+      background: #e7202b;
+      color: white;
+      border-radius: 5px;
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 6px;
+      color: #71766e;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    main {
+      max-width: 824px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e2e3dc;
+      border-radius: 12px;
+      padding: 40px 48px;
+    }
+
+    .eyebrow {
+      color: #71766e;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: 32px;
+    }
+
+    .sub {
+      color: #71766e;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    label {
+      display: block;
+      margin: 20px 0 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      height: 49px;
+      padding: 0 13px;
+      border: 1px solid #dedfd9;
+      border-radius: 5px;
+      background: #fafaf8;
+      color: #232624;
+      font: inherit;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 17px;
+      border: 0;
+      border-radius: 5px;
+      background: #e7202b;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #c81520;
+    }
+
+    fieldset:disabled button {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    input:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #a8cce8;
+      outline-offset: 2px;
+    }
+
+    #status {
+      padding: 14px;
+      border-radius: 6px;
+      background: #eef3f7;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    #status:empty {
+      display: none;
+    }
+
+    #status.success {
+      background: #e8f5e9;
+      color: #205c29;
+    }
+
+    #status.error {
+      background: #ffebee;
+      color: #a31524;
+    }
+
+    .note {
+      color: #71766e;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .existing {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e9eae5;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: #71766e;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 26px 22px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .brand {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">DP ↗</div>
+    <div class="brand">
+      DP Meziměstí
+      <small>VIRTUÁLNÍ DOPRAVNÍ PODNIK</small>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="title">
+      <div class="eyebrow">NOVÝ ŘIDIČ</div>
+      <h1 id="title">Vytvoř si účet</h1>
+      <p class="sub">Jeden účet. Vše pro tvoje jízdy.</p>
+
+      <p id="status" role="status" aria-live="polite">
+        Načítání registrace…
+      </p>
+
+      <form id="registration">
+        <fieldset id="fields" disabled>
+          <label for="name">Jméno nebo přezdívka</label>
+          <input
+            id="name"
+            name="name"
+            autocomplete="nickname"
+            placeholder="Jak ti máme říkat?"
+            maxlength="80"
+            required
+          >
+
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="tvuj@email.cz"
+            required
+          >
+
+          <label for="password">Heslo</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Alespoň 8 znaků"
+            minlength="8"
+            required
+          >
+
+          <label for="confirm">Heslo znovu</label>
+          <input
+            id="confirm"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Zopakuj heslo"
+            required
+          >
+
+          <button id="submit" type="submit">
+            Vytvořit účet →
+          </button>
+        </fieldset>
+      </form>
+
+      <p class="note">
+        Po registraci se můžeš rovnou přihlásit do aplikace jako řidič.
+      </p>
+
+      <div class="existing">
+        <strong>Už máš účet?</strong>
+        <p class="note">
+          Přihlas se přímo v aplikaci DP Meziměstí.
+        </p>
+      </div>
+
+      <noscript>
+        Pro registraci je potřeba zapnout JavaScript v prohlížeči.
+      </noscript>
+    </section>
+  </main>
+
+  <footer>DP Meziměstí · Virtuální doprava. Skutečný tým.</footer>
+
+  <script type="module">
+    const form = document.getElementById("registration");
+    const fields = document.getElementById("fields");
+    const status = document.getElementById("status");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmInput = document.getElementById("confirm");
+    const submitButton = document.getElementById("submit");
+
+    function show(message, type = "") {
+      status.textContent = message;
+      status.className = type;
+    }
+
+    const errorMessages = {
+      "auth/invalid-email":
+        "Zkontroluj e-mailovou adresu.",
+      "auth/weak-password":
+        "Heslo je příliš slabé. Použij delší a silnější heslo.",
+      "auth/password-does-not-meet-requirements":
+        "Heslo nesplňuje požadavky. Použij delší heslo s velkými a malými písmeny, čísly a symbolem.",
+      "auth/invalid-credential":
+        "Účet se nepodařilo ověřit. Zkontroluj e-mail a heslo.",
+      "auth/wrong-password":
+        "Účet se nepodařilo ověřit. Zkontroluj e-mail a heslo.",
+      "auth/user-disabled":
+        "Tento účet je deaktivovaný. Kontaktuj majitele.",
+      "auth/network-request-failed":
+        "Připojení se nezdařilo. Zkontroluj internet a zkus to znovu.",
+      "auth/too-many-requests":
+        "Příliš mnoho pokusů. Zkus to prosím později.",
+      "auth/operation-not-allowed":
+        "Registrace není povolena. Kontaktuj majitele podniku.",
+      "permission-denied":
+        "Účet existuje, ale profil se nepodařilo uložit. Majitel musí zkontrolovat pravidla databáze. Potom registraci zopakuj se stejným e-mailem a heslem.",
+      "unavailable":
+        "Databáze je dočasně nedostupná. Zkus to znovu se stejnými údaji."
+    };
+
+    nameInput.addEventListener("input", () => {
+      nameInput.setCustomValidity("");
+    });
+
+    confirmInput.addEventListener("input", () => {
+      confirmInput.setCustomValidity("");
+    });
+
+    passwordInput.addEventListener("input", () => {
+      confirmInput.setCustomValidity("");
+    });
+
+    try {
+      const [appSDK, authSDK, dbSDK] = await Promise.all([
+        import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
+        import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
+        import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
+      ]);
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCrw2ZBfLrapJa9hXwMjlVNxj-SdpqjChs",
+        authDomain: "dp-mezimesti.firebaseapp.com",
+        projectId: "dp-mezimesti",
+        storageBucket: "dp-mezimesti.firebasestorage.app",
+        messagingSenderId: "7824900811",
+        appId: "1:7824900811:web:4ea6b0679a5b251cb9914e"
+      };
+
+      const app = appSDK.initializeApp(firebaseConfig);
+      const auth = authSDK.getAuth(app);
+      const db = dbSDK.getFirestore(app);
+
+      await authSDK.setPersistence(
+        auth,
+        authSDK.inMemoryPersistence
+      );
+
+      auth.languageCode = "cs";
+      fields.disabled = false;
+      show("");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (fields.disabled) return;
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!name) {
+          nameInput.setCustomValidity("Vyplň jméno nebo přezdívku.");
+          nameInput.reportValidity();
+          return;
+        }
+
+        if (password !== confirmInput.value) {
+          confirmInput.setCustomValidity("Hesla se neshodují.");
+          confirmInput.reportValidity();
+          return;
+        }
+
+        if (!form.reportValidity()) return;
+
+        fields.disabled = true;
+        submitButton.textContent = "Vytvářím účet…";
+        show("Ověřuji účet a ukládám profil…");
+
+        let completed = false;
+
+        try {
+          let credential;
+
+          try {
+            credential = await authSDK.createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+          } catch (error) {
+            if (error.code !== "auth/email-already-in-use") {
+              throw error;
+            }
+
+            // Dokončení dříve přerušené registrace po ověření hesla.
+            credential = await authSDK.signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+          }
+
+          const profileRef = dbSDK.doc(
+            db,
+            "users",
+            credential.user.uid
+          );
+
+          const role = await dbSDK.runTransaction(
+            db,
+            async (transaction) => {
+              const snapshot = await transaction.get(profileRef);
+
+              // Existující profil ani jeho roli nepřepisujeme.
+              if (snapshot.exists()) {
+                return snapshot.data().role;
+              }
+
+              transaction.set(profileRef, {
+                name: name,
+                role: "driver",
+                createdAt: dbSDK.serverTimestamp()
+              });
+
+              return "driver";
+            }
+          );
+
+          if (role === "driver" || role === "owner") {
+            show(
+              "Účet je aktivní! Přihlas se stejným e-mailem a heslem v aplikaci DP Meziměstí. Směny uvidíš, jakmile ti je majitel přiřadí.",
+              "success"
+            );
+          } else if (role === "pending") {
+            show(
+              "Tento starší účet ještě čeká na aktivaci. Požádej majitele o změnu role na driver.",
+              "error"
+            );
+          } else {
+            show(
+              "Účet existuje, ale nemá platnou roli. Kontaktuj majitele podniku.",
+              "error"
+            );
+          }
+
+          passwordInput.value = "";
+          confirmInput.value = "";
+          submitButton.textContent = "Účet ověřen";
+          completed = true;
+        } catch (error) {
+          show(
+            errorMessages[error.code] ||
+              "Registraci se nepodařilo dokončit (" +
+                (error.code || "chyba připojení") +
+                "). Zkus to znovu se stejnými údaji.",
+            "error"
+          );
+        } finally {
+          try {
+            await authSDK.signOut(auth);
+          } catch {
+            // Přihlášení je pouze v paměti této stránky.
+          }
+
+          fields.disabled = completed;
+
+          if (!completed) {
+            submitButton.textContent = "Vytvořit účet →";
+          }
+        }
+      });
+    } catch {
+      show(
+        "Registraci se nepodařilo načíst. Zkontroluj internet a obnov stránku.",
+        "error"
+      );
+    }
+  </script>
+</body>
+</html>
