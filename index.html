@@ -3,484 +3,948 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registrace | DP Meziměstí</title>
+  <meta name="theme-color" content="#df202c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="DP Meziměstí">
+  <title>DP Meziměstí — portál řidiče</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
 
     body {
       margin: 0;
-      background: #f6f5f2;
-      color: #232624;
       font-family: Arial, sans-serif;
+      color: #252525;
+      background: #f5f5f3;
     }
 
     header {
-      max-width: 1200px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      padding: 20px;
+    }
+
+    .header-inner {
+      max-width: 950px;
       margin: auto;
-      padding: 24px;
       display: flex;
-      align-items: center;
       gap: 14px;
-      border-bottom: 1px solid #ddded8;
+      align-items: center;
     }
 
     .logo {
-      padding: 15px 12px;
-      background: #e7202b;
+      background: #df202c;
       color: white;
-      border-radius: 5px;
+      padding: 14px 10px;
+      border-radius: 8px;
       font-size: 23px;
       font-weight: bold;
     }
 
-    .brand {
-      font-size: 22px;
-      font-weight: bold;
-    }
+    header strong { font-size: 21px; }
 
-    .brand small {
+    header small {
       display: block;
-      margin-top: 6px;
-      color: #71766e;
-      font-size: 10px;
-      letter-spacing: 1px;
+      color: #777;
+      margin-top: 5px;
+      font-size: 11px;
     }
 
     main {
-      max-width: 824px;
+      max-width: 950px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 24px 16px 50px;
     }
 
     .card {
       background: white;
-      border: 1px solid #e2e3dc;
+      padding: 24px;
+      margin-bottom: 18px;
+      border: 1px solid #e0e0e0;
       border-radius: 12px;
-      padding: 40px 48px;
     }
 
-    .eyebrow {
-      color: #71766e;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 2px;
+    .auth-card {
+      max-width: 510px;
+      margin: 15px auto;
     }
 
-    h1 {
-      margin: 20px 0 10px;
-      font-size: 32px;
-    }
+    h1, h2, h3 { margin-top: 0; }
+    h1 { font-size: 27px; }
+    h2 { font-size: 22px; }
+    h3 { font-size: 18px; margin-bottom: 10px; }
 
-    .sub {
-      color: #71766e;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    fieldset {
-      border: 0;
-      margin: 0;
-      padding: 0;
-      min-width: 0;
-    }
+    p { line-height: 1.6; }
+    .muted { color: #666; font-size: 14px; }
+    .preserve { white-space: pre-wrap; overflow-wrap: anywhere; }
 
     label {
       display: block;
-      margin: 20px 0 8px;
+      margin: 16px 0 7px;
       font-size: 14px;
       font-weight: bold;
     }
 
-    input {
+    input, select, textarea {
       width: 100%;
-      height: 49px;
-      padding: 0 13px;
-      border: 1px solid #dedfd9;
-      border-radius: 5px;
-      background: #fafaf8;
-      color: #232624;
+      max-width: 100%;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      background: white;
+      color: #252525;
       font: inherit;
+      font-size: 16px;
     }
+
+    textarea { min-height: 120px; resize: vertical; }
 
     button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 17px;
-      border: 0;
-      border-radius: 5px;
-      background: #e7202b;
+      border: none;
+      border-radius: 7px;
+      padding: 12px 17px;
+      background: #df202c;
       color: white;
-      font-size: 16px;
+      font: inherit;
       font-weight: bold;
       cursor: pointer;
+      min-height: 44px;
     }
 
-    button:hover {
-      background: #c81520;
+    button:hover { filter: brightness(.94); }
+    button:disabled { opacity: .5; cursor: wait; }
+
+    .secondary { background: #eceef0; color: #30343a; }
+    .danger { background: #fff0f0; color: #ac1822; }
+    .wide { width: 100%; margin-top: 22px; }
+
+    .row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    fieldset:disabled button {
-      opacity: 0.6;
-      cursor: wait;
+    .between { justify-content: space-between; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 18px;
     }
 
-    input:focus-visible,
-    button:focus-visible {
-      outline: 3px solid #a8cce8;
-      outline-offset: 2px;
+    .tabs { margin: 20px 0; }
+    .tabs button { flex: 1; }
+    .tabs button[aria-selected="false"] {
+      background: #e7e8ea;
+      color: #333;
     }
 
-    #status {
+    .actions { margin-top: 18px; }
+    .item { border-left: 5px solid #df202c; }
+
+    #notice {
       padding: 14px;
-      border-radius: 6px;
-      background: #eef3f7;
-      font-size: 14px;
-      line-height: 1.6;
+      background: #edf3fa;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      line-height: 1.5;
       overflow-wrap: anywhere;
     }
 
-    #status:empty {
-      display: none;
-    }
+    #notice:empty { display: none; }
+    #notice.error { background: #ffebee; color: #961322; }
+    #notice.success { background: #e7f5e9; color: #215a2d; }
 
-    #status.success {
-      background: #e8f5e9;
-      color: #205c29;
-    }
-
-    #status.error {
-      background: #ffebee;
-      color: #a31524;
-    }
-
-    .note {
-      color: #71766e;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .existing {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #e9eae5;
+    :focus-visible {
+      outline: 3px solid #80b5e6;
+      outline-offset: 3px;
     }
 
     footer {
-      padding: 20px;
       text-align: center;
-      color: #71766e;
       font-size: 12px;
+      color: #777;
+      padding: 20px;
     }
 
-    @media (max-width: 600px) {
-      .card {
-        padding: 26px 22px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      .brand {
-        font-size: 19px;
-      }
+    @media (max-width: 550px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 20px; }
+      header strong { font-size: 19px; }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="logo">DP ↗</div>
-    <div class="brand">
-      DP Meziměstí
-      <small>VIRTUÁLNÍ DOPRAVNÍ PODNIK</small>
+    <div class="header-inner">
+      <div class="logo">DP ↗</div>
+      <div>
+        <strong>DP Meziměstí</strong>
+        <small>VIRTUÁLNÍ DOPRAVNÍ PODNIK</small>
+      </div>
     </div>
   </header>
 
   <main>
-    <section class="card" aria-labelledby="title">
-      <div class="eyebrow">NOVÝ ŘIDIČ</div>
-      <h1 id="title">Vytvoř si účet</h1>
-      <p class="sub">Jeden účet. Vše pro tvoje jízdy.</p>
+    <div id="notice" role="status" aria-live="polite">
+      Načítání aplikace…
+    </div>
 
-      <p id="status" role="status" aria-live="polite">
-        Načítání registrace…
-      </p>
+    <section id="authView" class="card auth-card" hidden>
+      <h1 id="authTitle">Přihlášení</h1>
+      <p class="muted">Použij stejný účet jako v Android aplikaci.</p>
 
-      <form id="registration">
-        <fieldset id="fields" disabled>
+      <form id="authForm">
+        <div id="nameField" hidden>
           <label for="name">Jméno nebo přezdívka</label>
-          <input
-            id="name"
-            name="name"
-            autocomplete="nickname"
-            placeholder="Jak ti máme říkat?"
-            maxlength="80"
-            required
-          >
+          <input id="name" maxlength="80" autocomplete="nickname">
+        </div>
 
-          <label for="email">E-mail</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            placeholder="tvuj@email.cz"
-            required
-          >
+        <label for="email">E-mail</label>
+        <input id="email" type="email" autocomplete="email" required>
 
-          <label for="password">Heslo</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Alespoň 8 znaků"
-            minlength="8"
-            required
-          >
+        <label for="password">Heslo</label>
+        <input id="password" type="password"
+               autocomplete="current-password" required>
 
-          <label for="confirm">Heslo znovu</label>
-          <input
-            id="confirm"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Zopakuj heslo"
-            required
-          >
+        <div id="confirmField" hidden>
+          <label for="confirmPassword">Heslo znovu</label>
+          <input id="confirmPassword" type="password"
+                 autocomplete="new-password">
+          <p class="muted">
+            Nový účet získá roli řidiče bez schvalování.
+          </p>
+        </div>
 
-          <button id="submit" type="submit">
-            Vytvořit účet →
-          </button>
-        </fieldset>
+        <button id="authSubmit" class="wide">Přihlásit se</button>
       </form>
 
-      <p class="note">
-        Po registraci se můžeš rovnou přihlásit do aplikace jako řidič.
-      </p>
+      <button id="switchAuth" class="secondary wide" type="button">
+        Nemám účet — registrace
+      </button>
+    </section>
 
-      <div class="existing">
-        <strong>Už máš účet?</strong>
-        <p class="note">
-          Přihlas se přímo v aplikaci DP Meziměstí.
-        </p>
+    <section id="appView" hidden>
+      <div class="row between">
+        <div>
+          <h1>Portál řidiče</h1>
+          <div id="userInfo" class="muted"></div>
+        </div>
+        <button id="logout" class="secondary">Odhlásit se</button>
       </div>
 
-      <noscript>
-        Pro registraci je potřeba zapnout JavaScript v prohlížeči.
-      </noscript>
+      <div class="row tabs" role="tablist" aria-label="Sekce">
+        <button id="shiftsTab" role="tab" aria-selected="true">
+          Směny
+        </button>
+        <button id="reportsTab" role="tab" aria-selected="false">
+          Poruchy
+        </button>
+      </div>
+
+      <section id="shiftsView">
+        <div class="card">
+          <div class="grid">
+            <div>
+              <label for="filterDate">Datum směn</label>
+              <input id="filterDate" type="date" required>
+            </div>
+            <div class="row actions">
+              <button id="refreshShifts" class="secondary">
+                Obnovit
+              </button>
+              <button id="newShift" hidden>Nová směna</button>
+            </div>
+          </div>
+        </div>
+
+        <section id="shiftEditor" class="card" hidden>
+          <h2 id="editorTitle">Nová směna</h2>
+
+          <form id="shiftForm">
+            <label for="driver">Řidič</label>
+            <select id="driver" required></select>
+
+            <div class="grid">
+              <div>
+                <label for="shiftDate">Datum</label>
+                <input id="shiftDate" type="date" required>
+              </div>
+              <div>
+                <label for="lines">Linka / linky</label>
+                <input id="lines" maxlength="200"
+                       placeholder="Například 58, 201" required>
+              </div>
+              <div>
+                <label for="startTime">Začátek</label>
+                <input id="startTime" type="time" required>
+              </div>
+              <div>
+                <label for="endTime">Konec</label>
+                <input id="endTime" type="time" required>
+              </div>
+              <div>
+                <label for="startPlace">Místo začátku</label>
+                <input id="startPlace" maxlength="200" required>
+              </div>
+              <div>
+                <label for="endPlace">Místo konce</label>
+                <input id="endPlace" maxlength="200" required>
+              </div>
+            </div>
+
+            <p class="muted">
+              Pokud je konec dříve než začátek, směna končí následující den.
+            </p>
+
+            <div class="row actions">
+              <button id="saveShift">Uložit směnu</button>
+              <button id="cancelShift" type="button" class="secondary">
+                Zrušit
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <div id="shiftList"></div>
+      </section>
+
+      <section id="reportsView" hidden>
+        <section id="reportEditor" class="card" hidden>
+          <h2>Nahlásit poruchu majiteli</h2>
+
+          <form id="reportForm">
+            <label for="vehicle">Vozidlo</label>
+            <input id="vehicle" maxlength="100"
+                   placeholder="Typ nebo evidenční číslo" required>
+
+            <label for="message">Popis poruchy</label>
+            <textarea id="message" maxlength="5000" required></textarea>
+
+            <button id="sendReport" class="wide">
+              Odeslat hlášení
+            </button>
+          </form>
+        </section>
+
+        <div class="row between actions">
+          <h2 id="reportsTitle">Moje hlášení</h2>
+          <button id="refreshReports" class="secondary">Obnovit</button>
+        </div>
+
+        <div id="reportList" class="actions"></div>
+      </section>
     </section>
+
+    <noscript>Pro používání portálu zapni JavaScript.</noscript>
   </main>
 
-  <footer>DP Meziměstí · Virtuální doprava. Skutečný tým.</footer>
+  <footer>DP Meziměstí · Portál řidičů</footer>
 
   <script type="module">
-    const form = document.getElementById("registration");
-    const fields = document.getElementById("fields");
-    const status = document.getElementById("status");
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const confirmInput = document.getElementById("confirm");
-    const submitButton = document.getElementById("submit");
+    const $ = id => document.getElementById(id);
 
-    function show(message, type = "") {
-      status.textContent = message;
-      status.className = type;
+    function notice(text = "", kind = "") {
+      $("notice").textContent = text;
+      $("notice").className = kind;
     }
 
-    const errorMessages = {
-      "auth/invalid-email":
-        "Zkontroluj e-mailovou adresu.",
-      "auth/weak-password":
-        "Heslo je příliš slabé. Použij delší a silnější heslo.",
-      "auth/password-does-not-meet-requirements":
-        "Heslo nesplňuje požadavky. Použij delší heslo s velkými a malými písmeny, čísly a symbolem.",
-      "auth/invalid-credential":
-        "Účet se nepodařilo ověřit. Zkontroluj e-mail a heslo.",
-      "auth/wrong-password":
-        "Účet se nepodařilo ověřit. Zkontroluj e-mail a heslo.",
-      "auth/user-disabled":
-        "Tento účet je deaktivovaný. Kontaktuj majitele.",
-      "auth/network-request-failed":
-        "Připojení se nezdařilo. Zkontroluj internet a zkus to znovu.",
-      "auth/too-many-requests":
-        "Příliš mnoho pokusů. Zkus to prosím později.",
-      "auth/operation-not-allowed":
-        "Registrace není povolena. Kontaktuj majitele podniku.",
-      "permission-denied":
-        "Účet existuje, ale profil se nepodařilo uložit. Majitel musí zkontrolovat pravidla databáze. Potom registraci zopakuj se stejným e-mailem a heslem.",
-      "unavailable":
-        "Databáze je dočasně nedostupná. Zkus to znovu se stejnými údaji."
-    };
+    function errorText(error) {
+      const messages = {
+        "auth/invalid-credential": "Nesprávný e-mail nebo heslo.",
+        "auth/wrong-password": "Nesprávný e-mail nebo heslo.",
+        "auth/invalid-email": "Zkontroluj e-mailovou adresu.",
+        "auth/user-disabled": "Účet je deaktivovaný.",
+        "auth/weak-password": "Použij silnější heslo, alespoň 8 znaků.",
+        "auth/password-does-not-meet-requirements":
+          "Heslo nesplňuje požadavky Firebase. Použij silnější heslo.",
+        "auth/too-many-requests": "Příliš mnoho pokusů. Zkus to později.",
+        "auth/operation-not-allowed":
+          "Přihlášení e-mailem není ve Firebase povolené.",
+        "auth/network-request-failed": "Zkontroluj internetové připojení.",
+        "permission-denied":
+          "Nemáš oprávnění. Majitel musí zkontrolovat roli účtu a pravidla Firestore.",
+        "unavailable": "Databáze není dostupná. Zkus to znovu.",
+        "failed-precondition":
+          "Databáze vyžaduje další nastavení. Pošli majiteli tuto chybu."
+      };
+      return messages[error.code] ||
+        error.message || "Operace se nezdařila.";
+    }
 
-    nameInput.addEventListener("input", () => {
-      nameInput.setCustomValidity("");
-    });
+    async function busy(button, action) {
+      if (button.disabled) return;
+      button.disabled = true;
+      try {
+        await action();
+      } catch (error) {
+        notice(errorText(error), "error");
+      } finally {
+        button.disabled = false;
+      }
+    }
 
-    confirmInput.addEventListener("input", () => {
-      confirmInput.setCustomValidity("");
-    });
+    function localDate() {
+      const d = new Date();
+      return [
+        d.getFullYear(),
+        String(d.getMonth() + 1).padStart(2, "0"),
+        String(d.getDate()).padStart(2, "0")
+      ].join("-");
+    }
 
-    passwordInput.addEventListener("input", () => {
-      confirmInput.setCustomValidity("");
-    });
+    function textElement(tag, text, className = "") {
+      const node = document.createElement(tag);
+      node.textContent = text;
+      node.className = className;
+      return node;
+    }
+
+    function emptyList(target, message) {
+      target.replaceChildren(textElement("p", message, "card muted"));
+    }
+
+    function makeButton(text, className, action) {
+      const button = textElement("button", text, className);
+      button.type = "button";
+      button.addEventListener("click", () => busy(button, action));
+      return button;
+    }
 
     try {
-      const [appSDK, authSDK, dbSDK] = await Promise.all([
+      const [A, U, D] = await Promise.all([
         import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
         import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
         import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
       ]);
 
-      const firebaseConfig = {
+      const app = A.initializeApp({
         apiKey: "AIzaSyCrw2ZBfLrapJa9hXwMjlVNxj-SdpqjChs",
         authDomain: "dp-mezimesti.firebaseapp.com",
         projectId: "dp-mezimesti",
         storageBucket: "dp-mezimesti.firebasestorage.app",
         messagingSenderId: "7824900811",
         appId: "1:7824900811:web:4ea6b0679a5b251cb9914e"
+      });
+
+      const auth = U.getAuth(app);
+      const db = D.getFirestore(app);
+      auth.languageCode = "cs";
+
+      // Přihlášení platí v aktuální relaci prohlížeče.
+      await U.setPersistence(auth, U.browserSessionPersistence);
+      await auth.authStateReady();
+
+      let registering = false;
+      let profile = null;
+      let user = null;
+      let editingId = null;
+      let generation = 0;
+      let shiftRequest = 0;
+      let reportRequest = 0;
+      let driverNames = new Map();
+
+      const owner = () => profile?.role === "owner";
+
+      function requireOwner() {
+        if (!user || !owner()) {
+          throw new Error("Tuto akci může provést pouze majitel.");
+        }
+      }
+
+      function signedOutView() {
+        generation++;
+        user = null;
+        profile = null;
+        editingId = null;
+        driverNames.clear();
+        $("appView").hidden = true;
+        $("authView").hidden = false;
+        $("shiftEditor").hidden = true;
+        $("shiftList").replaceChildren();
+        $("reportList").replaceChildren();
+        $("password").value = "";
+        $("confirmPassword").value = "";
+      }
+
+      async function enterApp() {
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          signedOutView();
+          return;
+        }
+
+        const snapshot = await D.getDocFromServer(
+          D.doc(db, "users", currentUser.uid)
+        );
+
+        const data = snapshot.exists() ? snapshot.data() : null;
+
+        if (!data || !["owner", "driver"].includes(data.role)) {
+          await U.signOut(auth);
+          signedOutView();
+          throw new Error(
+            "Účet nemá aktivní profil řidiče nebo majitele. " +
+            "Majitel musí zkontrolovat dokument users a jeho pole role."
+          );
+        }
+
+        generation++;
+        user = currentUser;
+        profile = data;
+
+        $("authView").hidden = true;
+        $("appView").hidden = false;
+        $("userInfo").textContent =
+          (data.name || currentUser.email) +
+          " · " + (owner() ? "Majitel" : "Řidič");
+
+        $("newShift").hidden = !owner();
+        $("reportEditor").hidden = owner();
+        $("reportsTitle").textContent =
+          owner() ? "Hlášení řidičů" : "Moje hlášení";
+
+        $("password").value = "";
+        $("confirmPassword").value = "";
+        $("filterDate").value = localDate();
+
+        selectTab("shifts");
+        notice("");
+        await loadShifts();
+      }
+
+      function selectTab(tab) {
+        const shifts = tab === "shifts";
+        $("shiftsView").hidden = !shifts;
+        $("reportsView").hidden = shifts;
+        $("shiftsTab").setAttribute("aria-selected", String(shifts));
+        $("reportsTab").setAttribute("aria-selected", String(!shifts));
+      }
+
+      $("switchAuth").onclick = () => {
+        registering = !registering;
+        $("nameField").hidden = !registering;
+        $("confirmField").hidden = !registering;
+        $("name").required = registering;
+        $("confirmPassword").required = registering;
+        $("password").minLength = registering ? 8 : 1;
+        $("password").autocomplete =
+          registering ? "new-password" : "current-password";
+        $("authTitle").textContent =
+          registering ? "Registrace řidiče" : "Přihlášení";
+        $("authSubmit").textContent =
+          registering ? "Vytvořit účet" : "Přihlásit se";
+        $("switchAuth").textContent =
+          registering ? "Už mám účet — přihlášení" : "Nemám účet — registrace";
+        notice("");
       };
 
-      const app = appSDK.initializeApp(firebaseConfig);
-      const auth = authSDK.getAuth(app);
-      const db = dbSDK.getFirestore(app);
-
-      await authSDK.setPersistence(
-        auth,
-        authSDK.inMemoryPersistence
-      );
-
-      auth.languageCode = "cs";
-      fields.disabled = false;
-      show("");
-
-      form.addEventListener("submit", async (event) => {
+      $("authForm").onsubmit = event => {
         event.preventDefault();
 
-        if (fields.disabled) return;
-
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        if (!name) {
-          nameInput.setCustomValidity("Vyplň jméno nebo přezdívku.");
-          nameInput.reportValidity();
-          return;
-        }
-
-        if (password !== confirmInput.value) {
-          confirmInput.setCustomValidity("Hesla se neshodují.");
-          confirmInput.reportValidity();
-          return;
-        }
-
-        if (!form.reportValidity()) return;
-
-        fields.disabled = true;
-        submitButton.textContent = "Vytvářím účet…";
-        show("Ověřuji účet a ukládám profil…");
-
-        let completed = false;
-
-        try {
-          let credential;
+        busy($("authSubmit"), async () => {
+          $("switchAuth").disabled = true;
 
           try {
-            credential = await authSDK.createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-          } catch (error) {
-            if (error.code !== "auth/email-already-in-use") {
-              throw error;
+            const email = $("email").value.trim();
+            const password = $("password").value;
+            const name = $("name").value.trim();
+
+            if (registering && !name) {
+              throw new Error("Vyplň jméno nebo přezdívku.");
             }
 
-            // Dokončení dříve přerušené registrace po ověření hesla.
-            credential = await authSDK.signInWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-          }
+            if (registering && password !== $("confirmPassword").value) {
+              throw new Error("Hesla se neshodují.");
+            }
 
-          const profileRef = dbSDK.doc(
-            db,
-            "users",
-            credential.user.uid
-          );
+            notice("Přihlašuji…");
 
-          const role = await dbSDK.runTransaction(
-            db,
-            async (transaction) => {
-              const snapshot = await transaction.get(profileRef);
+            if (registering) {
+              let credential;
 
-              // Existující profil ani jeho roli nepřepisujeme.
-              if (snapshot.exists()) {
-                return snapshot.data().role;
+              try {
+                credential = await U.createUserWithEmailAndPassword(
+                  auth, email, password
+                );
+              } catch (error) {
+                if (error.code !== "auth/email-already-in-use") throw error;
+                credential = await U.signInWithEmailAndPassword(
+                  auth, email, password
+                );
               }
 
-              transaction.set(profileRef, {
-                name: name,
-                role: "driver",
-                createdAt: dbSDK.serverTimestamp()
+              const ref = D.doc(db, "users", credential.user.uid);
+
+              await D.runTransaction(db, async transaction => {
+                const existing = await transaction.get(ref);
+                if (!existing.exists()) {
+                  transaction.set(ref, {
+                    name,
+                    role: "driver",
+                    createdAt: D.serverTimestamp()
+                  });
+                }
               });
-
-              return "driver";
+            } else {
+              await U.signInWithEmailAndPassword(auth, email, password);
             }
-          );
-
-          if (role === "driver" || role === "owner") {
-            show(
-              "Účet je aktivní! Přihlas se stejným e-mailem a heslem v aplikaci DP Meziměstí. Směny uvidíš, jakmile ti je majitel přiřadí.",
-              "success"
-            );
-          } else if (role === "pending") {
-            show(
-              "Tento starší účet ještě čeká na aktivaci. Požádej majitele o změnu role na driver.",
-              "error"
-            );
-          } else {
-            show(
-              "Účet existuje, ale nemá platnou roli. Kontaktuj majitele podniku.",
-              "error"
-            );
+          } catch (error) {
+            await U.signOut(auth).catch(() => {});
+            signedOutView();
+            throw error;
+          } finally {
+            $("switchAuth").disabled = false;
           }
 
-          passwordInput.value = "";
-          confirmInput.value = "";
-          submitButton.textContent = "Účet ověřen";
-          completed = true;
+          await enterApp();
+        });
+      };
+
+      $("logout").onclick = () => busy($("logout"), async () => {
+        await U.signOut(auth);
+        signedOutView();
+        notice("Jsi odhlášený.");
+      });
+
+      async function loadShifts() {
+        if (!user) return;
+
+        const selectedDate = $("filterDate").value;
+        if (!selectedDate) throw new Error("Vyber datum.");
+
+        const session = generation;
+        const request = ++shiftRequest;
+        const list = $("shiftList");
+        emptyList(list, "Načítání směn…");
+
+        try {
+          const constraints = [D.where("date", "==", selectedDate)];
+
+          if (!owner()) {
+            constraints.push(D.where("driverId", "==", user.uid));
+          }
+
+          const result = await D.getDocsFromServer(
+            D.query(D.collection(db, "shifts"), ...constraints)
+          );
+
+          if (session !== generation || request !== shiftRequest) return;
+
+          list.replaceChildren();
+
+          const shifts = result.docs.map(doc => ({
+            ...doc.data(),
+            id: doc.id
+          }));
+
+          shifts.sort((a, b) =>
+            String(a.startTime || "").localeCompare(String(b.startTime || ""))
+          );
+
+          if (!shifts.length) {
+            emptyList(list, "Na tento den nejsou přidělené žádné směny.");
+          }
+
+          for (const shift of shifts) {
+            const card = textElement("article", "", "card item");
+            card.append(
+              textElement("h3", "Linka: " + (shift.lines || "—")),
+              textElement("p",
+                (shift.startTime || "—") + " – " + (shift.endTime || "—")),
+              textElement("p",
+                (shift.startPlace || "—") + " → " + (shift.endPlace || "—"),
+                "preserve")
+            );
+
+            if (owner()) {
+              card.append(textElement("p",
+                "Řidič: " + (shift.driverName || shift.driverId), "muted"));
+
+              const actions = textElement("div", "", "row actions");
+
+              actions.append(
+                makeButton("Upravit", "secondary", () => openEditor(shift)),
+                makeButton("Smazat", "danger", async () => {
+                  requireOwner();
+                  if (!window.confirm("Opravdu smazat tuto směnu?")) return;
+                  await D.deleteDoc(D.doc(db, "shifts", shift.id));
+                  notice("Směna byla smazána.", "success");
+                  await loadShifts();
+                })
+              );
+
+              card.append(actions);
+            }
+
+            list.append(card);
+          }
         } catch (error) {
-          show(
-            errorMessages[error.code] ||
-              "Registraci se nepodařilo dokončit (" +
-                (error.code || "chyba připojení") +
-                "). Zkus to znovu se stejnými údaji.",
-            "error"
-          );
-        } finally {
-          try {
-            await authSDK.signOut(auth);
-          } catch {
-            // Přihlášení je pouze v paměti této stránky.
-          }
-
-          fields.disabled = completed;
-
-          if (!completed) {
-            submitButton.textContent = "Vytvořit účet →";
+          if (session === generation && request === shiftRequest) {
+            emptyList(list, "Směny se nepodařilo načíst.");
+            throw error;
           }
         }
-      });
-    } catch {
-      show(
-        "Registraci se nepodařilo načíst. Zkontroluj internet a obnov stránku.",
+      }
+
+      async function openEditor(shift = null) {
+        requireOwner();
+        const session = generation;
+
+        const result = await D.getDocsFromServer(
+          D.query(D.collection(db, "users"), D.where("role", "==", "driver"))
+        );
+
+        if (session !== generation) return;
+
+        const drivers = result.docs.map(doc => ({
+          id: doc.id,
+          name: doc.data().name || doc.id
+        })).sort((a, b) => a.name.localeCompare(b.name, "cs"));
+
+        const select = $("driver");
+        select.replaceChildren();
+
+        const placeholder = new Option("Vyber řidiče", "");
+        placeholder.disabled = true;
+        select.add(placeholder);
+
+        for (const driver of drivers) {
+          select.add(new Option(driver.name, driver.id));
+        }
+
+        if (shift && !drivers.some(d => d.id === shift.driverId)) {
+          select.add(new Option(
+            (shift.driverName || shift.driverId) + " (původní řidič)",
+            shift.driverId
+          ));
+        }
+
+        select.value = shift?.driverId || "";
+        editingId = shift?.id || null;
+
+        $("editorTitle").textContent =
+          shift ? "Upravit směnu" : "Nová směna";
+        $("shiftDate").value = shift?.date || $("filterDate").value;
+        $("lines").value = shift?.lines || "";
+        $("startTime").value = shift?.startTime || "";
+        $("endTime").value = shift?.endTime || "";
+        $("startPlace").value = shift?.startPlace || "";
+        $("endPlace").value = shift?.endPlace || "";
+
+        $("shiftEditor").hidden = false;
+        $("shiftEditor").scrollIntoView({ behavior: "smooth" });
+
+        if (!drivers.length && !shift) {
+          notice("Zatím nemáš žádné řidiče. Nejprve se musí zaregistrovat.");
+        }
+      }
+
+      $("newShift").onclick =
+        () => busy($("newShift"), () => openEditor());
+
+      $("cancelShift").onclick = () => {
+        editingId = null;
+        $("shiftEditor").hidden = true;
+      };
+
+      $("shiftForm").onsubmit = event => {
+        event.preventDefault();
+
+        busy($("saveShift"), async () => {
+          requireOwner();
+
+          const data = {
+            driverId: $("driver").value,
+            driverName: $("driver").selectedOptions[0]?.textContent || "",
+            date: $("shiftDate").value,
+            lines: $("lines").value.trim(),
+            startTime: $("startTime").value,
+            endTime: $("endTime").value,
+            startPlace: $("startPlace").value.trim(),
+            endPlace: $("endPlace").value.trim()
+          };
+
+          if (Object.values(data).some(value => !value)) {
+            throw new Error("Vyplň všechna pole směny.");
+          }
+
+          if (editingId) {
+            await D.updateDoc(D.doc(db, "shifts", editingId), data);
+          } else {
+            await D.addDoc(D.collection(db, "shifts"), data);
+          }
+
+          editingId = null;
+          $("shiftEditor").hidden = true;
+          $("filterDate").value = data.date;
+          notice("Směna byla uložena.", "success");
+          await loadShifts();
+        });
+      };
+
+      async function loadReports() {
+        if (!user) return;
+
+        const session = generation;
+        const request = ++reportRequest;
+        const isOwner = owner();
+        const list = $("reportList");
+
+        emptyList(list, "Načítání hlášení…");
+
+        try {
+          const source = isOwner
+            ? D.collection(db, "reports")
+            : D.query(
+                D.collection(db, "reports"),
+                D.where("driverId", "==", user.uid)
+              );
+
+          const result = await D.getDocsFromServer(source);
+
+          if (session !== generation || request !== reportRequest) return;
+
+          const reports = result.docs.map(doc => ({
+            ...doc.data(),
+            id: doc.id
+          }));
+
+          if (isOwner) {
+            const ids = [...new Set(reports.map(r => r.driverId))]
+              .filter(id => id && !driverNames.has(id));
+
+            await Promise.all(ids.map(async id => {
+              try {
+                const snapshot = await D.getDocFromServer(
+                  D.doc(db, "users", id)
+                );
+                if (session === generation) {
+                  driverNames.set(id,
+                    snapshot.exists() ? snapshot.data().name || id : id);
+                }
+              } catch {
+                // Hlášení zobrazíme i tehdy, když jméno není dostupné.
+              }
+            }));
+          }
+
+          if (session !== generation || request !== reportRequest) return;
+
+          reports.sort((a, b) =>
+            (b.createdAt?.toMillis?.() || 0) -
+            (a.createdAt?.toMillis?.() || 0)
+          );
+
+          list.replaceChildren();
+
+          if (!reports.length) {
+            emptyList(list, "Zatím nejsou žádná hlášení.");
+          }
+
+          for (const report of reports) {
+            const card = textElement("article", "", "card item");
+
+            card.append(
+              textElement("h3", "Vozidlo: " + (report.vehicle || "—")),
+              textElement("p", report.message || "", "preserve")
+            );
+
+            const date = report.createdAt?.toDate?.();
+
+            if (date) {
+              card.append(textElement(
+                "p", date.toLocaleString("cs-CZ"), "muted"
+              ));
+            }
+
+            if (isOwner) {
+              card.append(textElement("p",
+                "Řidič: " +
+                (driverNames.get(report.driverId) || report.driverId),
+                "muted"));
+
+              card.append(makeButton("Smazat hlášení", "danger", async () => {
+                requireOwner();
+                if (!window.confirm("Opravdu smazat toto hlášení?")) return;
+                await D.deleteDoc(D.doc(db, "reports", report.id));
+                notice("Hlášení bylo smazáno.", "success");
+                await loadReports();
+              }));
+            }
+
+            list.append(card);
+          }
+        } catch (error) {
+          if (session === generation && request === reportRequest) {
+            emptyList(list, "Hlášení se nepodařilo načíst.");
+            throw error;
+          }
+        }
+      }
+
+      $("reportForm").onsubmit = event => {
+        event.preventDefault();
+
+        busy($("sendReport"), async () => {
+          if (!user || profile?.role !== "driver") {
+            throw new Error("Poruchu může hlásit přihlášený řidič.");
+          }
+
+          const vehicle = $("vehicle").value.trim();
+          const message = $("message").value.trim();
+
+          if (!vehicle || !message) {
+            throw new Error("Vyplň vozidlo a popis poruchy.");
+          }
+
+          await D.addDoc(D.collection(db, "reports"), {
+            driverId: user.uid,
+            vehicle,
+            message,
+            createdAt: D.serverTimestamp()
+          });
+
+          $("reportForm").reset();
+          notice("Hlášení bylo odesláno majiteli.", "success");
+          await loadReports();
+        });
+      };
+
+      $("refreshShifts").onclick =
+        () => busy($("refreshShifts"), loadShifts);
+
+      $("filterDate").onchange =
+        () => loadShifts().catch(e => notice(errorText(e), "error"));
+
+      $("refreshReports").onclick =
+        () => busy($("refreshReports"), loadReports);
+
+      $("shiftsTab").onclick = () => {
+        selectTab("shifts");
+        busy($("refreshShifts"), loadShifts);
+      };
+
+      $("reportsTab").onclick = () => {
+        selectTab("reports");
+        busy($("refreshReports"), loadReports);
+      };
+
+      notice("");
+
+      if (auth.currentUser) {
+        await enterApp();
+      } else {
+        signedOutView();
+      }
+    } catch (error) {
+      notice(
+        "Aplikaci se nepodařilo načíst. " + errorText(error) +
+        " Zkus obnovit stránku.",
         "error"
       );
     }
